@@ -19,7 +19,7 @@ function getRepoContributors(repoOwner, repoName, cb) {
       'user-agent': 'request',
       'Authorization': 'token ' + process.env.GITTOKEN // token must be saved in dotenv.
     }
-  }
+  };
 
   request(info, cb);
 }
@@ -28,17 +28,18 @@ function getRepoContributors(repoOwner, repoName, cb) {
 function downloadImageByURL(url, filePath) {
     
   request(url).pipe(fs.createWriteStream(filePath));
-  console.log("The file was saved!")
+  console.log("The file was saved!");
 
 }
 
 
 // CALLBACK FUNCTION
+
 var cb = function(err, response, data) {
 
   if (err) {
-    throw err;
     console.log("Errors: ", err);
+    throw err;
   }
 
   data = JSON.parse(data);
@@ -46,8 +47,9 @@ var cb = function(err, response, data) {
   console.log(data);
 
   // GET all avatar_urls - put into an array
-  avatarURLs = [];
-  contributorNames = [];
+
+  var avatarURLs = [];
+  var contributorNames = [];
 
   data.forEach(function(item){
     avatarURLs.push(item.avatar_url);
@@ -55,15 +57,12 @@ var cb = function(err, response, data) {
   });
 
   // DOWNLOAD each image, save files in a folder
-  // 
-  for (i = 0; i < avatarURLs.length; i++) {
-    currAvatar = avatarURLs[i];
-    currName = contributorNames[i];
+
+  for (var i = 0; i < avatarURLs.length; i++) {
+    var currAvatar = avatarURLs[i];
+    var currName = contributorNames[i];
     downloadImageByURL(currAvatar, "avatars/" + currName + ".jpeg");
   }
-}
+};
 
 getRepoContributors(repoOwner, repoName, cb);
-
-
-
