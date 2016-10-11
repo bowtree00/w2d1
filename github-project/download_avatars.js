@@ -43,19 +43,24 @@ var cb = function(err, response, data) {
 
   data = JSON.parse(data);
 
+  console.log(data);
+
   // GET all avatar_urls - put into an array
   avatarURLs = [];
+  contributorNames = [];
+
   data.forEach(function(item){
     avatarURLs.push(item.avatar_url);
+    contributorNames.push(item.login);
   });
 
   // DOWNLOAD each image, save files in a folder
-  i=0;
-
-  avatarURLs.forEach(function(item) {
-    downloadImageByURL(item, "avatar-images/image" + i + ".jpeg");
-    i++;
-  });
+  // 
+  for (i = 0; i < avatarURLs.length; i++) {
+    currAvatar = avatarURLs[i];
+    currName = contributorNames[i];
+    downloadImageByURL(currAvatar, "avatars/" + currName + ".jpeg");
+  }
 }
 
 getRepoContributors(repoOwner, repoName, cb);
