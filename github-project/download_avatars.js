@@ -1,6 +1,6 @@
 var request = require("request");
 var fs = require("fs");
-// require('dotenv').config();
+require('dotenv').config();
 
 var repoOwner = process.argv[2];
 var repoName = process.argv[3];
@@ -15,11 +15,10 @@ function getRepoContributors(repoOwner, repoName, cb) {
     method: "GET",
     headers: {
       'user-agent': 'request',
-      'Authorization': 'token ' + "0d1e7657ad6b839893801ef728acd6b514c06cc8" // token must be saved in dotenv.
+      // 'Authorization': 'token ' + "0d1e7657ad6b839893801ef728acd6b514c06cc8" // token must be saved in dotenv.
+      'Authorization': 'token ' + process.env.GITTOKEN // token must be saved in dotenv.
     }
   }
-  
-  // console.log("info ", info);
 
   request(info, cb);
 }
@@ -28,6 +27,7 @@ function getRepoContributors(repoOwner, repoName, cb) {
 function downloadImageByURL(url, filePath) {
     
     request(url).pipe(fs.createWriteStream(filePath));
+    console.log("The file was saved!")
 
     // var info = {
     //   url: url,
