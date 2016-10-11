@@ -58,6 +58,12 @@ var cb = function(err, response, data) {
 
   // DOWNLOAD each image, save files in a folder
 
+  fs.mkdir("avatars", function(err) {
+    if (err) {
+      console.log("Folder already exists");
+    }
+  });
+
   for (var i = 0; i < avatarURLs.length; i++) {
     var currAvatar = avatarURLs[i];
     var currName = contributorNames[i];
