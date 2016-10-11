@@ -4,20 +4,26 @@ var request = require("request");
 var fs = require("fs");
 require('dotenv').config();
 
+if (process.argv.length > 4) {
+  console.log("Too many arguments passed on the command line.");
+  console.log("Please provide one repo owner, and one repo name ONLY.");
+  return
+}
+
 var repoOwner = process.argv[2];
 var repoName = process.argv[3];
-
 
 function getRepoContributors(repoOwner, repoName, cb) {
 
   var url = "https://api.github.com/repos/" + repoOwner + "/" + repoName + "/contributors";
+  var authorization = 'token ' + process.env.GITTOKEN // token must be saved in dotenv.
 
   var info = {
     url: url,
     method: "GET",
     headers: {
       'user-agent': 'request',
-      'Authorization': 'token ' + process.env.GITTOKEN // token must be saved in dotenv.
+      'Authorization': authorization
     }
   };
 
